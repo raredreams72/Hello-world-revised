@@ -3,367 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dad Jokes Generator</title>
+    <title>Dad Jokes Central</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            height: 100vh;
+            background-color: #f0f8ff;
         }
-
         .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            padding: 40px;
-            max-width: 600px;
-            width: 100%;
             text-align: center;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-
-        .header {
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            color: #333;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .header p {
-            color: #666;
-            font-size: 1.1em;
-        }
-
-        .joke-display {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 30px;
-            margin: 20px 0;
-            min-height: 150px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border: 2px dashed #dee2e6;
-        }
-
-        .joke-setup {
-            font-size: 1.3em;
-            color: #495057;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        .joke-punchline {
-            font-size: 1.2em;
-            color: #6c757d;
-            font-style: italic;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .joke-punchline.show {
-            opacity: 1;
-        }
-
-        .buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 25px;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: linear-gradient(45deg, #4ecdc4, #44a08d);
-            color: white;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .category-selector {
-            margin: 20px 0;
-        }
-
-        .category-selector select {
-            padding: 10px 20px;
-            border: 2px solid #dee2e6;
-            border-radius: 25px;
-            font-size: 1em;
-            background: white;
-            cursor: pointer;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 30px;
-            padding: 20px;
-            background: #e9ecef;
-            border-radius: 15px;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #495057;
-        }
-
-        .stat-label {
-            color: #6c757d;
-            font-size: 0.9em;
-        }
-
-        .loading {
-            display: none;
-            font-size: 1.2em;
-            color: #6c757d;
-            margin: 20px 0;
-        }
-
-        .emoji {
-            font-size: 1.5em;
-            margin: 0 5px;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-            
-            .header h1 {
-                font-size: 2em;
-            }
-            
-            .buttons {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-            }
+        #joke-container {
+            margin: 2rem 0;
+            font-size: 1.2rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1><span class="emoji">🎭</span> Dad Jokes Generator <span class="emoji">🎭</span></h1>
-            <p>Get ready for some seriously dad-level humor!</p>
-            <p><em>(Warning: May cause eye-rolling and groaning)</em></p>
+        <h1>Welcome to Dad Jokes Central</h1>
+        <p>Get ready to groan!</p>
+        <div id="joke-container">
+            <p id="joke-setup"></p>
+            <p id="joke-punchline"></p>
         </div>
-
-        <div class="joke-display">
-            <div class="joke-setup" id="jokeSetup">Click "Tell Me a Joke" to get started!</div>
-            <div class="joke-punchline" id="jokePunchline"></div>
-        </div>
-
-        <div class="loading" id="loading">Thinking of a good one... 🤔</div>
-
-        <div class="buttons">
-            <button class="btn btn-primary" onclick="tellRandomJoke()">Tell Me a Joke</button>
-            <button class="btn btn-secondary" onclick="toggleCategorySelector()">Choose Category</button>
-        </div>
-
-        <div class="category-selector" id="categorySelector" style="display: none;">
-            <select id="categorySelect" onchange="tellJokeByCategory()">
-                <option value="">Select a category...</option>
-                <option value="food">🍕 Food</option>
-                <option value="animals">🐾 Animals</option>
-                <option value="work">💼 Work</option>
-                <option value="family">👨‍👩‍👧‍👦 Family</option>
-            </select>
-        </div>
-
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-number" id="jokesTold">0</div>
-                <div class="stat-label">Jokes Told</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number" id="groansEarned">0</div>
-                <div class="stat-label">Groans Earned</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number" id="dadLevel">0</div>
-                <div class="stat-label">Dad Level</div>
-            </div>
-        </div>
+        <button onclick="getJoke()">Get a New Dad Joke</button>
     </div>
 
     <script>
-        const jokes = {
-            food: [
-                ["Why did the scarecrow win an award?", "Because he was outstanding in his field!"],
-                ["What do you call a fake noodle?", "An impasta!"],
-                ["Why don't eggs tell jokes?", "They'd crack each other up!"],
-                ["What do you call cheese that isn't yours?", "Nacho cheese!"],
-                ["Why did the tomato turn red?", "Because it saw the salad dressing!"],
-                ["What's the best thing about Switzerland?", "I don't know, but the flag is a big plus!"],
-                ["Why don't scientists trust atoms?", "Because they make up everything!"],
-                ["What do you call a bear with no teeth?", "A gummy bear!"]
-            ],
-            animals: [
-                ["What do you call a fish wearing a bowtie?", "So-fish-ticated!"],
-                ["Why don't oysters donate to charity?", "Because they're shellfish!"],
-                ["What do you call a sleeping bull?", "A bulldozer!"],
-                ["Why did the chicken go to the séance?", "To talk to the other side!"],
-                ["What do you call a duck that gets all A's?", "A wise quacker!"],
-                ["Why don't elephants use computers?", "They're afraid of the mouse!"],
-                ["What do you call a bear with no ears?", "B!"],
-                ["Why did the cow go to outer space?", "To see the moooon!"]
-            ],
-            work: [
-                ["Why did the math book look so sad?", "Because it had too many problems!"],
-                ["What do you call a computer that sings?", "A Dell!"],
-                ["Why did the programmer quit his job?", "Because he didn't get arrays!"],
-                ["What do you call a computer that dances?", "A Dell-ightful computer!"],
-                ["Why did the scarecrow get promoted?", "He was outstanding in his field!"],
-                ["What do you call a bear with no teeth?", "A gummy bear!"],
-                ["Why don't scientists trust atoms?", "Because they make up everything!"],
-                ["What do you call a fake noodle?", "An impasta!"]
-            ],
-            family: [
-                ["Why did the dad bring a ladder to the bar?", "Because he heard the drinks were on the house!"],
-                ["What do you call a dad who's a magician?", "A dad-ician!"],
-                ["Why did the dad bring string to the restaurant?", "In case he needed to tie one on!"],
-                ["What do you call a dad who's a baker?", "A bread-winner!"],
-                ["Why did the dad bring a pencil to the beach?", "In case he wanted to draw a line in the sand!"],
-                ["What do you call a dad who's a musician?", "A dad-io!"],
-                ["Why did the dad bring a map to the party?", "In case he got lost in the conversation!"],
-                ["What do you call a dad who's a chef?", "A dad-cook!"]
-            ]
-        };
-
-        let stats = {
-            jokesTold: 0,
-            groansEarned: 0,
-            dadLevel: 0
-        };
-
-        function getAllJokes() {
-            let allJokes = [];
-            for (let category in jokes) {
-                allJokes = allJokes.concat(jokes[category]);
+        const jokes = [
+            {
+                "setup": "Why don't scientists trust atoms?",
+                "punchline": "Because they make up everything!"
+            },
+            {
+                "setup": "What do you call a fake noodle?",
+                "punchline": "An impasta!"
+            },
+            {
+                "setup": "Why did the scarecrow win an award?",
+                "punchline": "Because he was outstanding in his field!"
+            },
+            {
+                "setup": "What do you call a bear with no teeth?",
+                "punchline": "A gummy bear!"
+            },
+            {
+                "setup": "Why don't eggs tell jokes?",
+                "punchline": "They'd crack each other up!"
             }
-            return allJokes;
-        }
+        ];
 
-        function getRandomJoke() {
-            const allJokes = getAllJokes();
-            return allJokes[Math.floor(Math.random() * allJokes.length)];
-        }
-
-        function tellJoke(setup, punchline) {
-            const setupElement = document.getElementById('jokeSetup');
-            const punchlineElement = document.getElementById('jokePunchline');
-            const loadingElement = document.getElementById('loading');
-
-            // Show loading
-            loadingElement.style.display = 'block';
-            setupElement.textContent = '';
-            punchlineElement.textContent = '';
-            punchlineElement.classList.remove('show');
-
-            // Simulate thinking time
+        function getJoke() {
+            const joke = jokes[Math.floor(Math.random() * jokes.length)];
+            document.getElementById('joke-setup').innerText = joke.setup;
+            // The punchline is revealed on a delay to build suspense
             setTimeout(() => {
-                loadingElement.style.display = 'none';
-                setupElement.textContent = setup;
-                
-                // Show punchline after a delay
-                setTimeout(() => {
-                    punchlineElement.textContent = punchline;
-                    punchlineElement.classList.add('show');
-                    
-                    // Update stats
-                    updateStats();
-                }, 1500);
-            }, 1000);
+                document.getElementById('joke-punchline').innerText = joke.punchline;
+            }, 2000); // 2-second delay
         }
 
-        function tellRandomJoke() {
-            const joke = getRandomJoke();
-            tellJoke(joke[0], joke[1]);
-        }
-
-        function tellJokeByCategory() {
-            const category = document.getElementById('categorySelect').value;
-            if (category && jokes[category]) {
-                const categoryJokes = jokes[category];
-                const joke = categoryJokes[Math.floor(Math.random() * categoryJokes.length)];
-                tellJoke(joke[0], joke[1]);
-            }
-        }
-
-        function toggleCategorySelector() {
-            const selector = document.getElementById('categorySelector');
-            selector.style.display = selector.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function updateStats() {
-            stats.jokesTold++;
-            stats.groansEarned += Math.floor(Math.random() * 3) + 1; // Random groans
-            stats.dadLevel = Math.floor(stats.jokesTold / 5) + 1; // Increase dad level every 5 jokes
-
-            document.getElementById('jokesTold').textContent = stats.jokesTold;
-            document.getElementById('groansEarned').textContent = stats.groansEarned;
-            document.getElementById('dadLevel').textContent = stats.dadLevel;
-        }
-
-        // Add some fun keyboard shortcuts
-        document.addEventListener('keydown', function(event) {
-            if (event.code === 'Space') {
-                event.preventDefault();
-                tellRandomJoke();
-            }
-        });
-
-        // Add some fun hover effects
-        document.querySelector('.joke-display').addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.02)';
-            this.style.transition = 'transform 0.3s ease';
-        });
-
-        document.querySelector('.joke-display').addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-        });
+        // Load a joke on the initial page load
+        getJoke();
     </script>
 </body>
 </html> 

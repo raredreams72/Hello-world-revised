@@ -8,6 +8,22 @@ import random
 import time
 import sys
 
+def generate_dad_joke():
+    """
+    Generates a dad joke with predictable & wholesome humor.
+    The jokes have an obvious, non-offensive punchline, often relying on
+    simple wordplay or puns, designed to elicit a lighthearted groan.
+    """
+    jokes = [
+        ("Why don't scientists trust atoms?", "Because they make up everything!"),
+        ("What do you call a fake noodle?", "An impasta!"),
+        ("Why did the scarecrow win an award?", "Because he was outstanding in his field!"),
+        ("What do you call a bear with no teeth?", "A gummy bear!"),
+        ("Why don't eggs tell jokes?", "They'd crack each other up!"),
+    ]
+    setup, punchline = random.choice(jokes)
+    return f"{setup} {punchline}"
+
 class DadJokes:
     def __init__(self):
         self.jokes = {
