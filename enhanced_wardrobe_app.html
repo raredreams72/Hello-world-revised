@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Wardrobe App: Trends + Style Inspiration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #2D3748;
+            min-height: 100vh;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+            color: #A0AEC0;
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4);
+            transition: width 0.3s ease;
+        }
+        .nav-button.active, .nav-button:hover {
+            color: #FFFFFF;
+        }
+        .nav-button.active::before, .nav-button:hover::before {
+            width: 100%;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+        }
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        .elevated-btn {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .elevated-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .elevated-btn:hover::before {
+            left: 100%;
+        }
+        .elevated-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .trend-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        .trend-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        .style-inspiration {
+            background: linear-gradient(135deg, #FF6B6B, #FFE66D);
+            border-radius: 16px;
+            color: white;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: auto;
+            height: 300px;
+        }
+        .step-number {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 900;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .fashion-trend {
+            background: linear-gradient(135deg, #A8E6CF, #96CEB4);
+            border-radius: 12px;
+            padding: 12px;
+            margin: 8px 0;
+            transition: all 0.3s ease;
+        }
+        .fashion-trend:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .inspiration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .inspiration-item {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .inspiration-item:hover {
+            border-color: #4ECDC4;
+            transform: translateY(-5px);
+        }
+        .color-palette {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 8px 0;
+        }
+        .color-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .animated-bg {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-50 bg-white/10 backdrop-blur-lg border-b border-white/20">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <h1 class="text-3xl font-black text-white">✨ StyleSmart</h1>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#trends" class="nav-button border-b-2 border-transparent pb-1">Trends</a>
+                    <a href="#inspiration" class="nav-button border-b-2 border-transparent pb-1">Inspiration</a>
+                    <a href="#wardrobe" class="nav-button border-b-2 border-transparent pb-1">Wardrobe</a>
+                    <a href="#reselling" class="nav-button border-b-2 border-transparent pb-1">Resell</a>
+                    <a href="#demo" class="nav-button border-b-2 border-transparent pb-1">Demo</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        
+        <div class="text-center mb-16 max-w-4xl mx-auto">
+            <h2 class="text-5xl md:text-7xl font-black text-white mb-6 bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
+                Fashion Forward
+            </h2>
+            <p class="text-xl text-white/90 mb-8">Discover current trends, get personalized style inspiration, and manage your wardrobe with AI-powered intelligence.</p>
+            <div class="flex justify-center space-x-4">
+                <span class="px-4 py-2 bg-yellow-400 text-black rounded-full font-bold">🔥 Trending</span>
+                <span class="px-4 py-2 bg-pink-400 text-white rounded-full font-bold">✨ AI-Powered</span>
+                <span class="px-4 py-2 bg-purple-400 text-white rounded-full font-bold">💎 Personalized</span>
+            </div>
+        </div>
+
+        <div class="space-y-16">
+            <!-- Current Fashion Trends -->
+            <section id="trends" class="scroll-mt-24">
+                <div class="card p-8">
+                    <div class="flex items-start mb-8">
+                        <span class="step-number mr-6">1</span>
+                        <div>
+                            <h3 class="text-4xl font-black text-gray-800 mb-4">Current Fashion Trends 2024</h3>
+                            <p class="text-xl text-gray-600">Stay ahead with real-time trend analysis and personalized recommendations.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="trend-card p-6">
+                            <div class="text-4xl mb-4">🎨</div>
+                            <h4 class="text-xl font-bold mb-2">Color Trends</h4>
+                            <div class="space-y-2">
+                                <div class="fashion-trend">
+                                    <strong>Peach Fuzz</strong> - Pantone Color of the Year
+                                </div>
+                                <div class="fashion-trend">
+                                    <strong>Electric Blue</strong> - Making waves
+                                </div>
+                                <div class="fashion-trend">
+                                    <strong>Lavender</strong> - Soft and dreamy
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="trend-card p-6">
+                            <div class="text-4xl mb-4">👗</div>
+                            <h4 class="text-xl font-bold mb-2">Silhouette Trends</h4>
+                            <div class="space-y-2">
+                                <div class="fashion-trend">
+                                    <strong>Oversized Blazers</strong> - Power dressing
+                                </div>
+                                <div class="fashion-trend">
+                                    <strong>Midi Lengths</strong> - Versatile elegance
+                                </div>
+                                <div class="fashion-trend">
+                                    <strong>Wide Leg Pants</strong> - Comfort meets style
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="trend-card p-6">
+                            <div class="text-4xl mb-4">💎</div>
+                            <h4 class="text-xl font-bold mb-2">Accessory Trends</h4>
+                            <div class="space-y-2">
+                                <div class="fashion-trend">
+                                    <strong>Chunky Jewelry</strong> - Statement pieces
+                                </div>
+                                <div class="fashion-trend">
+                                    <strong>Micro Bags</strong> - Minimalist chic
+                                </div>
+                                <div class="fashion-trend">
+                                    <strong>Platform Shoes</strong> - Height and drama
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button class="elevated-btn font-bold py-4 px-8 rounded-full text-lg" data-target="trends-detail">
+                            🚀 Explore All Trends
+                        </button>
+                    </div>
+
+                    <div id="trends-detail" class="mt-8 p-8 bg-gradient-to-r from-pink-50 to-purple-50 rounded-2xl hidden">
+                        <h4 class="text-2xl font-bold text-center mb-6">Seasonal Trend Analysis</h4>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h5 class="font-bold text-lg mb-4">Spring/Summer 2024</h5>
+                                <div class="space-y-3">
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <div class="flex items-center justify-between">
+                                            <span class="font-semibold">Cottagecore Revival</span>
+                                            <span class="text-green-600 font-bold">↑ 45%</span>
+                                        </div>
+                                        <div class="color-palette">
+                                            <div class="color-swatch bg-green-300"></div>
+                                            <div class="color-swatch bg-yellow-300"></div>
+                                            <div class="color-swatch bg-pink-300"></div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <div class="flex items-center justify-between">
+                                            <span class="font-semibold">Y2K Nostalgia</span>
+                                            <span class="text-green-600 font-bold">↑ 32%</span>
+                                        </div>
+                                        <div class="color-palette">
+                                            <div class="color-swatch bg-pink-400"></div>
+                                            <div class="color-swatch bg-blue-400"></div>
+                                            <div class="color-swatch bg-purple-400"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-lg mb-4">Fall/Winter 2024</h5>
+                                <div class="space-y-3">
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <div class="flex items-center justify-between">
+                                            <span class="font-semibold">Dark Academia</span>
+                                            <span class="text-blue-600 font-bold">↑ 28%</span>
+                                        </div>
+                                        <div class="color-palette">
+                                            <div class="color-swatch bg-brown-600"></div>
+                                            <div class="color-swatch bg-gray-800"></div>
+                                            <div class="color-swatch bg-red-800"></div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <div class="flex items-center justify-between">
+                                            <span class="font-semibold">Coastal Grandmother</span>
+                                            <span class="text-green-600 font-bold">↑ 38%</span>
+                                        </div>
+                                        <div class="color-palette">
+                                            <div class="color-swatch bg-blue-200"></div>
+                                            <div class="color-swatch bg-white"></div>
+                                            <div class="color-swatch bg-beige-300"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Style Inspiration -->
+            <section id="inspiration" class="scroll-mt-24">
+                <div class="card p-8">
+                    <div class="flex items-start mb-8">
+                        <span class="step-number mr-6">2</span>
+                        <div>
+                            <h3 class="text-4xl font-black text-gray-800 mb-4">Personalized Style Inspiration</h3>
+                            <p class="text-xl text-gray-600">Get AI-curated outfit ideas based on your style preferences and current trends.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center mb-8">
+                        <button class="elevated-btn font-bold py-4 px-8 rounded-full text-lg" data-target="inspiration-demo">
+                            ✨ Get Your Style Inspiration
+                        </button>
+                    </div>
+
+                    <div id="inspiration-demo" class="hidden">
+                        <!-- Style Preference Quiz -->
+                        <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-2xl mb-8">
+                            <h4 class="text-2xl font-bold text-center mb-6">Discover Your Style Profile</h4>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <h5 class="font-bold mb-4">Style Preferences</h5>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center space-x-3">
+                                            <input type="checkbox" id="minimalist" class="w-5 h-5">
+                                            <label for="minimalist" class="font-medium">Minimalist & Clean</label>
+                                        </div>
+                                        <div class="flex items-center space-x-3">
+                                            <input type="checkbox" id="bohemian" class="w-5 h-5">
+                                            <label for="bohemian" class="font-medium">Bohemian & Free-spirited</label>
+                                        </div>
+                                        <div class="flex items-center space-x-3">
+                                            <input type="checkbox" id="classic" class="w-5 h-5">
+                                            <label for="classic" class="font-medium">Classic & Timeless</label>
+                                        </div>
+                                        <div class="flex items-center space-x-3">
+                                            <input type="checkbox" id="edgy" class="w-5 h-5">
+                                            <label for="edgy" class="font-medium">Edgy & Bold</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold mb-4">Color Palette</h5>
+                                    <div class="grid grid-cols-3 gap-3">
+                                        <div class="text-center">
+                                            <div class="w-12 h-12 bg-red-400 rounded-full mx-auto mb-2"></div>
+                                            <span class="text-sm">Warm</span>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="w-12 h-12 bg-blue-400 rounded-full mx-auto mb-2"></div>
+                                            <span class="text-sm">Cool</span>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="w-12 h-12 bg-gray-400 rounded-full mx-auto mb-2"></div>
+                                            <span class="text-sm">Neutral</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI-Generated Inspirations -->
+                        <div class="inspiration-grid">
+                            <div class="inspiration-item">
+                                <div class="text-4xl mb-3">🌸</div>
+                                <h5 class="font-bold mb-2">Spring Garden Party</h5>
+                                <p class="text-sm text-gray-600 mb-3">Floral midi dress with pastel accessories</p>
+                                <div class="color-palette">
+                                    <div class="color-swatch bg-pink-300"></div>
+                                    <div class="color-swatch bg-green-300"></div>
+                                    <div class="color-swatch bg-yellow-300"></div>
+                                </div>
+                                <div class="mt-3 text-xs text-purple-600 font-semibold">Trending Now</div>
+                            </div>
+                            
+                            <div class="inspiration-item">
+                                <div class="text-4xl mb-3">💼</div>
+                                <h5 class="font-bold mb-2">Power Office Look</h5>
+                                <p class="text-sm text-gray-600 mb-3">Oversized blazer with wide-leg pants</p>
+                                <div class="color-palette">
+                                    <div class="color-swatch bg-gray-800"></div>
+                                    <div class="color-swatch bg-white"></div>
+                                    <div class="color-swatch bg-red-600"></div>
+                                </div>
+                                <div class="mt-3 text-xs text-blue-600 font-semibold">Classic Choice</div>
+                            </div>
+                            
+                            <div class="inspiration-item">
+                                <div class="text-4xl mb-3">🌙</div>
+                                <h5 class="font-bold mb-2">Evening Elegance</h5>
+                                <p class="text-sm text-gray-600 mb-3">Silk slip dress with chunky jewelry</p>
+                                <div class="color-palette">
+                                    <div class="color-swatch bg-black"></div>
+                                    <div class="color-swatch bg-gold-400"></div>
+                                    <div class="color-swatch bg-purple-600"></div>
+                                </div>
+                                <div class="mt-3 text-xs text-pink-600 font-semibold">Hot Trend</div>
+                            </div>
+                            
+                            <div class="inspiration-item">
+                                <div class="text-4xl mb-3">🏖️</div>
+                                <h5 class="font-bold mb-2">Coastal Vibes</h5>
+                                <p class="text-sm text-gray-600 mb-3">Linen separates with straw accessories</p>
+                                <div class="color-palette">
+                                    <div class="color-swatch bg-blue-200"></div>
+                                    <div class="color-swatch bg-beige-300"></div>
+                                    <div class="color-swatch bg-white"></div>
+                                </div>
+                                <div class="mt-3 text-xs text-green-600 font-semibold">Seasonal</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Enhanced Wardrobe Section -->
+            <section id="wardrobe" class="scroll-mt-24">
+                <div class="card p-8">
+                    <div class="flex items-start mb-8">
+                        <span class="step-number mr-6">3</span>
+                        <div>
+                            <h3 class="text-4xl font-black text-gray-800 mb-4">Smart Wardrobe Hub</h3>
+                            <p class="text-xl text-gray-600">Enhanced with trend integration and style recommendations.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-gradient-to-br from-pink-100 to-purple-100 p-6 rounded-xl">
+                            <div class="text-3xl mb-3">🔍</div>
+                            <h4 class="font-bold text-lg mb-2">Trend Analysis</h4>
+                            <p class="text-gray-600">See which of your items are trending and get styling suggestions</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-blue-100 to-cyan-100 p-6 rounded-xl">
+                            <div class="text-3xl mb-3">✨</div>
+                            <h4 class="font-bold text-lg mb-2">AI Styling</h4>
+                            <p class="text-gray-600">Get outfit suggestions based on current trends and your style</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-green-100 to-emerald-100 p-6 rounded-xl">
+                            <div class="text-3xl mb-3">📊</div>
+                            <h4 class="font-bold text-lg mb-2">Style Analytics</h4>
+                            <p class="text-gray-600">Track your style evolution and trend adoption</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button class="elevated-btn font-bold py-4 px-8 rounded-full text-lg" data-target="wardrobe-demo">
+                            🎯 Explore Your Wardrobe
+                        </button>
+                    </div>
+
+                    <div id="wardrobe-demo" class="mt-8 p-8 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl hidden">
+                        <h4 class="text-2xl font-bold text-center mb-6">Your Trend-Integrated Wardrobe</h4>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h5 class="font-bold text-lg mb-4">Trending Items</h5>
+                                <div class="space-y-3">
+                                    <div class="bg-white p-4 rounded-lg border-l-4 border-pink-500">
+                                        <div class="flex items-center justify-between">
+                                            <span class="font-semibold">Oversized Blazer</span>
+                                            <span class="text-pink-600 font-bold">🔥 Hot</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600">Matches current power dressing trend</p>
+                                    </div>
+                                    <div class="bg-white p-4 rounded-lg border-l-4 border-green-500">
+                                        <div class="flex items-center justify-between">
+                                            <span class="font-semibold">Wide Leg Pants</span>
+                                            <span class="text-green-600 font-bold">↑ Trending</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600">Perfect for comfort-first fashion</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-lg mb-4">Style Recommendations</h5>
+                                <div class="space-y-3">
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <div class="font-semibold mb-2">Try This Look:</div>
+                                        <div class="flex items-center space-x-2 text-sm">
+                                            <span>👔</span>
+                                            <span>+</span>
+                                            <span>👖</span>
+                                            <span>+</span>
+                                            <span>👠</span>
+                                            <span>=</span>
+                                            <span class="font-bold text-purple-600">Power Look</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <div class="font-semibold mb-2">Trend Alert:</div>
+                                        <div class="text-sm text-blue-600">
+                                            Your floral dress is perfect for the cottagecore trend!
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Enhanced Reselling -->
+            <section id="reselling" class="scroll-mt-24">
+                <div class="card p-8">
+                    <div class="flex items-start mb-8">
+                        <span class="step-number mr-6">4</span>
+                        <div>
+                            <h3 class="text-4xl font-black text-gray-800 mb-4">Smart Reselling with Trend Data</h3>
+                            <p class="text-xl text-gray-600">Maximize profits by selling items when they're trending.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button class="elevated-btn font-bold py-4 px-8 rounded-full text-lg" data-target="reselling-demo">
+                            💰 Smart Reselling Hub
+                        </button>
+                    </div>
+
+                    <div id="reselling-demo" class="mt-8 p-8 bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl hidden">
+                        <h4 class="text-2xl font-bold text-center mb-6">Trend-Aware Reselling</h4>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h5 class="font-bold text-lg mb-4">Trend-Based Pricing</h5>
+                                <div class="space-y-4">
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="font-semibold">Vintage Denim Jacket</span>
+                                            <span class="text-green-600 font-bold">+25%</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600">Y2K trend is driving up prices</p>
+                                        <div class="mt-2 text-xs text-purple-600">Perfect timing to sell!</div>
+                                    </div>
+                                    <div class="bg-white p-4 rounded-lg">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="font-semibold">Minimalist Dress</span>
+                                            <span class="text-gray-600 font-bold">Stable</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600">Classic item, consistent demand</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-lg mb-4">Market Intelligence</h5>
+                                <div class="chart-container">
+                                    <canvas id="trendChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Interactive Demo -->
+            <section id="demo" class="scroll-mt-24">
+                <div class="card p-8">
+                    <div class="flex items-start mb-8">
+                        <span class="step-number mr-6">5</span>
+                        <div>
+                            <h3 class="text-4xl font-black text-gray-800 mb-4">Interactive Style Experience</h3>
+                            <p class="text-xl text-gray-600">Try out the complete app with real-time trend data and AI recommendations.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button class="elevated-btn font-bold py-4 px-8 rounded-full text-lg" data-target="final-demo">
+                            🎮 Launch Interactive Demo
+                        </button>
+                    </div>
+
+                    <div id="final-demo" class="mt-8 p-8 animated-bg rounded-2xl text-white hidden">
+                        <h4 class="text-2xl font-bold text-center mb-6">Your Personal Style Journey</h4>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-white/20 backdrop-blur-sm p-6 rounded-xl">
+                                <div class="text-3xl mb-3">🎨</div>
+                                <h5 class="font-bold mb-2">Style Profile</h5>
+                                <p class="text-sm opacity-90">Minimalist with a touch of edge</p>
+                            </div>
+                            <div class="bg-white/20 backdrop-blur-sm p-6 rounded-xl">
+                                <div class="text-3xl mb-3">📈</div>
+                                <h5 class="font-bold mb-2">Trend Score</h5>
+                                <p class="text-sm opacity-90">85% - You're ahead of the curve!</p>
+                            </div>
+                            <div class="bg-white/20 backdrop-blur-sm p-6 rounded-xl">
+                                <div class="text-3xl mb-3">💎</div>
+                                <h5 class="font-bold mb-2">Style Potential</h5>
+                                <p class="text-sm opacity-90">12 new outfit combinations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation Highlighting
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                        });
+                    }
+                });
+            }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Enhanced Button Interactions
+            const elevatedButtons = document.querySelectorAll('.elevated-btn');
+            elevatedButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-target');
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.classList.toggle('hidden');
+                        if (!targetElement.classList.contains('hidden')) {
+                            button.innerHTML = button.innerHTML.replace('Explore', 'Hide').replace('Get', 'Hide').replace('Launch', 'Hide');
+                            if(targetId === 'final-demo') {
+                                renderTrendChart();
+                            }
+                        } else {
+                            button.innerHTML = button.innerHTML.replace('Hide', 'Explore').replace('Hide', 'Get').replace('Hide', 'Launch');
+                        }
+                    }
+                });
+            });
+
+            // Trend Chart
+            let trendChartInstance = null;
+            function renderTrendChart() {
+                const ctx = document.getElementById('trendChart');
+                if (ctx && !trendChartInstance) {
+                    trendChartInstance = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                            datasets: [{
+                                label: 'Trend Score',
+                                data: [65, 72, 78, 85, 82, 88],
+                                borderColor: 'rgb(255, 99, 132)',
+                                backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    max: 100
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+
+            // Add some interactive elements
+            const fashionTrends = document.querySelectorAll('.fashion-trend');
+            fashionTrends.forEach(trend => {
+                trend.addEventListener('click', () => {
+                    trend.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        trend.style.transform = 'scale(1)';
+                    }, 200);
+                });
+            });
+        });
+    </script>
+
+</body>
+</html> 

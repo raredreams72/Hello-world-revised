@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Guide: Wardrobe App Blueprint</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals & Soft Blush -->
+    <!-- Application Structure Plan: The application is structured as a single-page, vertical-scrolling journey. It follows the 5-step process outlined in the source report. This sequential, task-oriented design was chosen because the source material is a "how-to" guide. A linear flow is the most intuitive way for a user to consume and understand a step-by-step process. Navigation is handled by a sticky top bar that allows users to jump to any step. Each section is designed as an interactive card, presenting the core concept and then revealing an "Elevated Experience" feature upon clicking a button. This interaction encourages engagement and prevents overwhelming the user with information, making the learning process feel special and curated. -->
+    <!-- Visualization & Content Choices: The application uses a combination of structured text and interactive visualizations to make the guide engaging. Step 1 (Root Causes) uses an interactive list where hovering highlights the core user problem. Step 2 (Digital Sanctuary) uses a simple HTML/CSS diagram to visualize the concept of a visual catalog. Step 3 (Outfit Magic) uses another interactive diagram to showcase the AI suggestion feature. Step 4 (Smart Shopping) visually represents the "complementary item" concept. Step 5 (Wardrobe Wellness) features a dynamic Chart.js donut chart to visualize the "Wellness Report," making abstract data tangible and interactive. This approach turns a static guide into a dynamic and exploratory tool. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8; /* Warm off-white */
+            color: #4A4A4A;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+            color: #A9A9A9; /* Muted gray */
+        }
+        .nav-button.active, .nav-button:hover {
+            color: #D4A3A3; /* Soft Blush */
+            border-bottom-color: #D4A3A3;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border: 1px solid #F0EAE6; /* Light warm gray border */
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+        }
+        .elevated-btn {
+            background-color: #ECE7E1; /* Muted Taupe */
+            color: #6B6B6B;
+            transition: all 0.3s ease;
+        }
+        .elevated-btn:hover {
+            background-color: #D4A3A3; /* Soft Blush */
+            color: white;
+        }
+        .elevated-content {
+            background-color: #F9F6F3; /* Lighter warm gray */
+            border-top: 1px solid #F0EAE6;
+        }
+        .icon-placeholder {
+            width: 50px;
+            height: 50px;
+            background-color: #ECE7E1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #6B6B6B;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            margin: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .step-number {
+            color: #D4A3A3;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-lg shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-20 border-b border-gray-200">
+                <h1 class="text-2xl font-bold text-gray-800">Wardrobe App Blueprint</h1>
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="#step1" class="nav-button border-b-2 border-transparent pb-1">Challenges</a>
+                    <a href="#step2" class="nav-button border-b-2 border-transparent pb-1">Sanctuary</a>
+                    <a href="#step3" class="nav-button border-b-2 border-transparent pb-1">Magic</a>
+                    <a href="#step4" class="nav-button border-b-2 border-transparent pb-1">Shopping</a>
+                    <a href="#step5" class="nav-button border-b-2 border-transparent pb-1">Wellness</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        
+        <div class="text-center mb-16 max-w-3xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Transforming a Chore into a Delight</h2>
+            <p class="text-lg text-gray-600">This guide breaks down how to design a wardrobe app that's not just functional, but feels like a personal stylist. We'll use Root Cause Analysis to address the real reasons getting dressed can be a struggle, and design an app that provides a truly special, elevated experience.</p>
+        </div>
+
+        <div class="space-y-16">
+            <!-- Step 1 -->
+            <section id="step1" class="scroll-mt-24">
+                <div class="card p-6 md:p-8">
+                    <div class="flex items-start mb-4">
+                        <span class="step-number mr-4">1</span>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800">Uncover "Hidden Challenges"</h3>
+                            <p class="text-gray-600">First, we identify the root causes of wardrobe frustration. These are the core problems our app must solve to be truly useful.</p>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4 mt-6">
+                        <div class="p-4 border border-gray-200 rounded-lg hover:bg-rose-50 transition-colors duration-300">
+                            <h4 class="font-bold text-gray-700">Lack of Visibility</h4>
+                            <p class="text-gray-600">"I forget what I even own!"</p>
+                        </div>
+                        <div class="p-4 border border-gray-200 rounded-lg hover:bg-rose-50 transition-colors duration-300">
+                            <h4 class="font-bold text-gray-700">Difficulty Combining Items</h4>
+                            <p class="text-gray-600">"I have nothing to wear, despite a full closet."</p>
+                        </div>
+                        <div class="p-4 border border-gray-200 rounded-lg hover:bg-rose-50 transition-colors duration-300">
+                            <h4 class="font-bold text-gray-700">Impulsive Shopping</h4>
+                            <p class="text-gray-600">"I keep buying things that don't match."</p>
+                        </div>
+                        <div class="p-4 border border-gray-200 rounded-lg hover:bg-rose-50 transition-colors duration-300">
+                            <h4 class="font-bold text-gray-700">Poor Maintenance Tracking</h4>
+                            <p class="text-gray-600">"My favorite clothes are always at the cleaners."</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 2 -->
+            <section id="step2" class="scroll-mt-24">
+                <div class="card p-6 md:p-8">
+                     <div class="flex items-start mb-4">
+                        <span class="step-number mr-4">2</span>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800">Design Your "Digital Style Sanctuary"</h3>
+                            <p class="text-gray-600">The core of the app: a beautiful, intuitive visual catalog of the user's clothes. This directly solves the "Lack of Visibility" problem.</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 text-center">
+                        <button class="elevated-btn font-bold py-2 px-4 rounded-lg inline-flex items-center" data-target="elevated-2">
+                            ✨ Show Elevated Experience
+                        </button>
+                    </div>
+                    <div id="elevated-2" class="elevated-content mt-6 rounded-lg p-6 text-center hidden">
+                        <h4 class="font-bold text-xl text-gray-800 mb-2">Rich, Searchable Style Database</h4>
+                        <p class="text-gray-600 mb-6">Instead of just a photo, allow users to add meaningful tags. This turns a simple inventory into a powerful styling tool they can search by occasion, color, or even memories.</p>
+                        <div class="flex justify-center items-center space-x-4">
+                             <div class="text-center">
+                                <div class="icon-placeholder">🏷️</div>
+                                <p class="text-sm mt-2">Color Tag</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="icon-placeholder">🗓️</div>
+                                <p class="text-sm mt-2">Occasion Tag</p>
+                            </div>
+                             <div class="text-center">
+                                <div class="icon-placeholder">📝</div>
+                                <p class="text-sm mt-2">Personal Note</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 3 -->
+            <section id="step3" class="scroll-mt-24">
+                <div class="card p-6 md:p-8">
+                    <div class="flex items-start mb-4">
+                        <span class="step-number mr-4">3</span>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800">Unlock "Effortless Outfit Magic"</h3>
+                            <p class="text-gray-600">Solve the "nothing to wear" dilemma by making outfit creation simple and intelligent. This is where the app becomes a true personal stylist.</p>
+                        </div>
+                    </div>
+                     <div class="mt-6 text-center">
+                        <button class="elevated-btn font-bold py-2 px-4 rounded-lg inline-flex items-center" data-target="elevated-3">
+                            ✨ Show Elevated Experience
+                        </button>
+                    </div>
+                    <div id="elevated-3" class="elevated-content mt-6 rounded-lg p-6 hidden">
+                        <h4 class="font-bold text-xl text-center text-gray-800 mb-2">AI-Powered Outfit Suggestions</h4>
+                        <p class="text-gray-600 text-center mb-6">Imagine the app suggesting outfits from your own closet! It analyzes your items and considers factors like the weather to create looks for you.</p>
+                        <div class="flex justify-center items-center space-x-2 md:space-x-4 p-4 rounded-lg bg-white">
+                            <div class="icon-placeholder">👚</div>
+                            <div class="text-2xl text-gray-400">+</div>
+                            <div class="icon-placeholder">👖</div>
+                             <div class="text-2xl text-gray-400">=</div>
+                             <div class="relative">
+                                <div class="icon-placeholder bg-rose-200 border-2 border-rose-400">💡</div>
+                                <span class="absolute -top-2 -right-2 text-xs bg-rose-500 text-white rounded-full px-2 py-1">AI</span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 4 -->
+            <section id="step4" class="scroll-mt-24">
+                <div class="card p-6 md:p-8">
+                     <div class="flex items-start mb-4">
+                        <span class="step-number mr-4">4</span>
+                        <div>
+                           <h3 class="text-2xl font-bold text-gray-800">Empower "Smart Shopping Intuition"</h3>
+                            <p class="text-gray-600">Address impulsive buying by turning the app into a mindful shopping assistant that knows what the user already owns.</p>
+                        </div>
+                    </div>
+                     <div class="mt-6 text-center">
+                        <button class="elevated-btn font-bold py-2 px-4 rounded-lg inline-flex items-center" data-target="elevated-4">
+                            ✨ Show Elevated Experience
+                        </button>
+                    </div>
+                     <div id="elevated-4" class="elevated-content mt-6 rounded-lg p-6 hidden">
+                        <h4 class="font-bold text-xl text-center text-gray-800 mb-2">The Smart Shopping Assistant</h4>
+                        <p class="text-gray-600 text-center mb-6">When a user adds an item to their wishlist, the app can analyze their existing wardrobe and show how the new piece would complement it, preventing mismatched purchases.</p>
+                        <div class="flex justify-center items-center space-x-2 md:space-x-4 p-4 rounded-lg bg-white">
+                             <div class="icon-placeholder">🛍️</div>
+                            <div class="text-2xl text-gray-400">+</div>
+                            <div class="icon-placeholder">🤔</div>
+                             <div class="text-2xl text-gray-400">→</div>
+                             <div class="icon-placeholder bg-emerald-200 border-2 border-emerald-400">✅</div>
+                        </div>
+                         <p class="text-center text-sm text-emerald-700 mt-2 font-semibold">"This item would create 5 new outfits!"</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 5 -->
+            <section id="step5" class="scroll-mt-24">
+                <div class="card p-6 md:p-8">
+                     <div class="flex items-start mb-4">
+                        <span class="step-number mr-4">5</span>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800">Your "Wardrobe Wellness" Journey</h3>
+                            <p class="text-gray-600">Maintain a healthy, functional wardrobe through insightful data and gentle reminders. This feature addresses maintenance and clutter.</p>
+                        </div>
+                    </div>
+                     <div class="mt-6 text-center">
+                        <button class="elevated-btn font-bold py-2 px-4 rounded-lg inline-flex items-center" data-target="elevated-5">
+                            ✨ Show Elevated Experience
+                        </button>
+                    </div>
+                     <div id="elevated-5" class="elevated-content mt-6 rounded-lg p-6 hidden">
+                        <h4 class="font-bold text-xl text-center text-gray-800 mb-4">The Wardrobe Wellness Report</h4>
+                        <p class="text-gray-600 text-center mb-6">The app provides a dynamic report based on wear tracking. It highlights your most-loved pieces versus "hidden gems" that you might have forgotten, encouraging you to rediscover your own clothes.</p>
+                         <div class="chart-container">
+                            <canvas id="wellnessChart"></canvas>
+                        </div>
+                        <div class="flex justify-center mt-4 space-x-4 text-sm">
+                            <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-rose-400 mr-2"></span> Most Loved</div>
+                            <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-gray-300 mr-2"></span> Hidden Gems</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation Highlighting
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                        });
+                    }
+                });
+            }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Elevated Experience Toggles
+            const elevatedButtons = document.querySelectorAll('.elevated-btn');
+            elevatedButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-target');
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.classList.toggle('hidden');
+                        if (!targetElement.classList.contains('hidden')) {
+                             button.innerHTML = '✨ Hide Elevated Experience';
+                             if(targetId === 'elevated-5') {
+                                 renderWellnessChart();
+                             }
+                        } else {
+                            button.innerHTML = '✨ Show Elevated Experience';
+                        }
+                    }
+                });
+            });
+            
+            // Chart.js Wellness Report
+            let wellnessChartInstance = null;
+            function renderWellnessChart() {
+                const ctx = document.getElementById('wellnessChart').getContext('2d');
+                if (wellnessChartInstance) {
+                    wellnessChartInstance.destroy();
+                }
+                wellnessChartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Most Loved Items', 'Hidden Gems'],
+                        datasets: [{
+                            label: 'Wardrobe Usage',
+                            data: [35, 65], // Example data
+                            backgroundColor: [
+                                'rgb(244, 114, 182)', // rose-400
+                                'rgb(209, 213, 219)'  // gray-300
+                            ],
+                            borderColor: '#FFFFFF',
+                            borderWidth: 4,
+                            hoverOffset: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed !== null) {
+                                            label += context.parsed + '%';
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html> 

@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Wardrobe App Concept: Style + Smart Reselling</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+            color: #A9A9A9;
+        }
+        .nav-button.active, .nav-button:hover {
+            color: #D4A3A3;
+            border-bottom-color: #D4A3A3;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border: 1px solid #F0EAE6;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+        }
+        .elevated-btn {
+            background-color: #ECE7E1;
+            color: #6B6B6B;
+            transition: all 0.3s ease;
+        }
+        .elevated-btn:hover {
+            background-color: #D4A3A3;
+            color: white;
+        }
+        .elevated-content {
+            background-color: #F9F6F3;
+            border-top: 1px solid #F0EAE6;
+        }
+        .icon-placeholder {
+            width: 50px;
+            height: 50px;
+            background-color: #ECE7E1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #6B6B6B;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            margin: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        .step-number {
+            color: #D4A3A3;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .platform-card {
+            border: 2px solid #F0EAE6;
+            transition: all 0.3s ease;
+        }
+        .platform-card:hover {
+            border-color: #D4A3A3;
+            transform: scale(1.02);
+        }
+        .platform-card.selected {
+            border-color: #D4A3A3;
+            background-color: #FDF2F8;
+        }
+        .price-tag {
+            background: linear-gradient(135deg, #D4A3A3, #E5B8B8);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .trending-indicator {
+            background-color: #FEF3C7;
+            color: #92400E;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-lg shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-20 border-b border-gray-200">
+                <h1 class="text-2xl font-bold text-gray-800">Complete Wardrobe App</h1>
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="#wardrobe" class="nav-button border-b-2 border-transparent pb-1">Wardrobe</a>
+                    <a href="#reselling" class="nav-button border-b-2 border-transparent pb-1">Smart Reselling</a>
+                    <a href="#integration" class="nav-button border-b-2 border-transparent pb-1">Integration</a>
+                    <a href="#demo" class="nav-button border-b-2 border-transparent pb-1">Live Demo</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        
+        <div class="text-center mb-16 max-w-4xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">The Complete Wardrobe Experience</h2>
+            <p class="text-lg text-gray-600">A revolutionary app that transforms both wardrobe management AND reselling into intelligent, data-driven experiences. From discovering what you own to maximizing the value of what you sell.</p>
+        </div>
+
+        <div class="space-y-16">
+            <!-- Part 1: Original Wardrobe App -->
+            <section id="wardrobe" class="scroll-mt-24">
+                <div class="card p-6 md:p-8">
+                    <div class="flex items-start mb-6">
+                        <span class="step-number mr-4">1</span>
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-800">The Smart Wardrobe Foundation</h3>
+                            <p class="text-gray-600">The original 5-step wardrobe management system that solves the core problems of getting dressed.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                        <div class="p-4 border border-gray-200 rounded-lg hover:bg-rose-50 transition-colors duration-300">
+                            <div class="flex items-center mb-2">
+                                <span class="text-2xl mr-2">🔍</span>
+                                <h4 class="font-bold text-gray-700">Root Cause Analysis</h4>
+                            </div>
+                            <p class="text-gray-600 text-sm">Identify hidden challenges: visibility, combination difficulty, impulsive shopping, maintenance tracking</p>
+                        </div>
+                        <div class="p-4 border border-gray-200 rounded-lg hover:bg-rose-50 transition-colors duration-300">
+                            <div class="flex items-center mb-2">
+                                <span class="text-2xl mr-2">🏠</span>
+                                <h4 class="font-bold text-gray-700">Digital Sanctuary</h4>
+                            </div>
+                            <p class="text-gray-600 text-sm">Rich, searchable visual catalog with meaningful tags and personal notes</p>
+                        </div>
+                        <div class="p-4 border border-gray-200 rounded-lg hover:bg-rose-50 transition-colors duration-300">
+                            <div class="flex items-center mb-2">
+                                <span class="text-2xl mr-2">✨</span>
+                                <h4 class="font-bold text-gray-700">Outfit Magic</h4>
+                            </div>
+                            <p class="text-gray-600 text-sm">AI-powered outfit suggestions from your own closet with weather consideration</p>
+                        </div>
+                        <div class="p-4 border border-gray-200 rounded-lg hover:bg-rose-50 transition-colors duration-300">
+                            <div class="flex items-center mb-2">
+                                <span class="text-2xl mr-2">🛍️</span>
+                                <h4 class="font-bold text-gray-700">Smart Shopping</h4>
+                            </div>
+                            <p class="text-gray-600 text-sm">Mindful shopping assistant that knows your wardrobe and prevents mismatched purchases</p>
+                        </div>
+                        <div class="p-4 border border-gray-200 rounded-lg hover:bg-rose-50 transition-colors duration-300">
+                            <div class="flex items-center mb-2">
+                                <span class="text-2xl mr-2">📊</span>
+                                <h4 class="font-bold text-gray-700">Wardrobe Wellness</h4>
+                            </div>
+                            <p class="text-gray-600 text-sm">Dynamic reports highlighting most-loved pieces vs hidden gems with wear tracking</p>
+                        </div>
+                        <div class="p-4 border border-gray-200 rounded-lg hover:bg-rose-50 transition-colors duration-300">
+                            <div class="flex items-center mb-2">
+                                <span class="text-2xl mr-2">🔄</span>
+                                <h4 class="font-bold text-gray-700">Seamless Integration</h4>
+                            </div>
+                            <p class="text-gray-600 text-sm">All features work together to create a cohesive, intelligent wardrobe experience</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 2: Smart Reselling Hub -->
+            <section id="reselling" class="scroll-mt-24">
+                <div class="card p-6 md:p-8">
+                    <div class="flex items-start mb-6">
+                        <span class="step-number mr-4">2</span>
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-800">Smart Reselling Hub</h3>
+                            <p class="text-gray-600">Transform reselling from a frustrating chore into an intelligent, profit-maximizing experience using real-time market data.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 text-center">
+                        <button class="elevated-btn font-bold py-3 px-6 rounded-lg inline-flex items-center" data-target="reselling-demo">
+                            🚀 Explore Smart Reselling Features
+                        </button>
+                    </div>
+
+                    <div id="reselling-demo" class="elevated-content mt-8 rounded-lg p-8 hidden">
+                        <!-- Market Intelligence Dashboard -->
+                        <div class="mb-8">
+                            <h4 class="font-bold text-xl text-gray-800 mb-4">Real-Time Market Intelligence</h4>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-white p-4 rounded-lg border">
+                                    <h5 class="font-semibold mb-3">Price Comparison Across Platforms</h5>
+                                    <div class="space-y-3">
+                                        <div class="flex justify-between items-center">
+                                            <span class="flex items-center"><span class="w-3 h-3 bg-purple-500 rounded-full mr-2"></span>Poshmark</span>
+                                            <span class="price-tag">$45-65</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="flex items-center"><span class="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>Depop</span>
+                                            <span class="price-tag">$38-58</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="flex items-center"><span class="w-3 h-3 bg-green-500 rounded-full mr-2"></span>eBay</span>
+                                            <span class="price-tag">$42-68</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="flex items-center"><span class="w-3 h-3 bg-orange-500 rounded-full mr-2"></span>Mercari</span>
+                                            <span class="price-tag">$40-62</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg border">
+                                    <h5 class="font-semibold mb-3">Smart Recommendations</h5>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <span>Best Platform</span>
+                                            <span class="font-semibold text-purple-600">Poshmark</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span>Optimal Price</span>
+                                            <span class="font-semibold text-green-600">$52</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span>Success Rate</span>
+                                            <span class="font-semibold text-blue-600">87%</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span>Time to Sell</span>
+                                            <span class="font-semibold text-orange-600">~5 days</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Platform Strategy -->
+                        <div class="mb-8">
+                            <h4 class="font-bold text-xl text-gray-800 mb-4">Platform Strategy Engine</h4>
+                            <div class="grid md:grid-cols-3 gap-4">
+                                <div class="platform-card p-4 rounded-lg cursor-pointer" data-platform="poshmark">
+                                    <div class="flex items-center mb-2">
+                                        <span class="text-2xl mr-2">💜</span>
+                                        <h5 class="font-semibold">Poshmark</h5>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mb-2">Best for: Designer items, trendy fashion</p>
+                                    <div class="flex justify-between text-sm">
+                                        <span>Fee: 20%</span>
+                                        <span class="trending-indicator">Trending</span>
+                                    </div>
+                                </div>
+                                <div class="platform-card p-4 rounded-lg cursor-pointer" data-platform="depop">
+                                    <div class="flex items-center mb-2">
+                                        <span class="text-2xl mr-2">🔵</span>
+                                        <h5 class="font-semibold">Depop</h5>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mb-2">Best for: Vintage, streetwear</p>
+                                    <div class="flex justify-between text-sm">
+                                        <span>Fee: 10%</span>
+                                        <span class="text-gray-400">Stable</span>
+                                    </div>
+                                </div>
+                                <div class="platform-card p-4 rounded-lg cursor-pointer" data-platform="ebay">
+                                    <div class="flex items-center mb-2">
+                                        <span class="text-2xl mr-2">🟢</span>
+                                        <h5 class="font-semibold">eBay</h5>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mb-2">Best for: Rare items, auctions</p>
+                                    <div class="flex justify-between text-sm">
+                                        <span>Fee: 12.9%</span>
+                                        <span class="text-gray-400">Reliable</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Smart Timing -->
+                        <div class="mb-8">
+                            <h4 class="font-bold text-xl text-gray-800 mb-4">Smart Timing Assistant</h4>
+                            <div class="bg-gradient-to-r from-rose-50 to-pink-50 p-6 rounded-lg">
+                                <div class="flex items-center mb-4">
+                                    <span class="text-3xl mr-3">⏰</span>
+                                    <div>
+                                        <h5 class="font-semibold text-lg">Optimal Listing Window</h5>
+                                        <p class="text-gray-600">This item is trending! List within the next 2 weeks for maximum profit.</p>
+                                    </div>
+                                </div>
+                                <div class="grid md:grid-cols-3 gap-4 text-sm">
+                                    <div class="bg-white p-3 rounded">
+                                        <div class="font-semibold">Seasonal Demand</div>
+                                        <div class="text-green-600">High (Spring Collection)</div>
+                                    </div>
+                                    <div class="bg-white p-3 rounded">
+                                        <div class="font-semibold">Market Saturation</div>
+                                        <div class="text-orange-600">Medium (15 similar items)</div>
+                                    </div>
+                                    <div class="bg-white p-3 rounded">
+                                        <div class="font-semibold">Price Trend</div>
+                                        <div class="text-green-600">↗️ Rising (+12% this month)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Automated Listing -->
+                        <div>
+                            <h4 class="font-bold text-xl text-gray-800 mb-4">Automated Listing Optimizer</h4>
+                            <div class="bg-white p-6 rounded-lg border">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h5 class="font-semibold mb-3">AI-Generated Listing</h5>
+                                        <div class="space-y-2 text-sm">
+                                            <div class="p-2 bg-gray-50 rounded">
+                                                <strong>Title:</strong> "Elegant Floral Midi Dress - Perfect for Spring Events"
+                                            </div>
+                                            <div class="p-2 bg-gray-50 rounded">
+                                                <strong>Keywords:</strong> floral, midi, spring, elegant, event dress
+                                            </div>
+                                            <div class="p-2 bg-gray-50 rounded">
+                                                <strong>Description:</strong> "Beautiful floral print midi dress in excellent condition. Perfect for spring weddings, garden parties, or date nights. Features a flattering A-line silhouette and comfortable stretch fabric."
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold mb-3">Photo Optimization</h5>
+                                        <div class="space-y-2 text-sm">
+                                            <div class="flex items-center">
+                                                <span class="w-4 h-4 bg-green-500 rounded-full mr-2"></span>
+                                                <span>Natural lighting recommended</span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <span class="w-4 h-4 bg-green-500 rounded-full mr-2"></span>
+                                                <span>Show fabric texture clearly</span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <span class="w-4 h-4 bg-green-500 rounded-full mr-2"></span>
+                                                <span>Include full-length shot</span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <span class="w-4 h-4 bg-yellow-500 rounded-full mr-2"></span>
+                                                <span>Add close-up of pattern</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 3: Integration -->
+            <section id="integration" class="scroll-mt-24">
+                <div class="card p-6 md:p-8">
+                    <div class="flex items-start mb-6">
+                        <span class="step-number mr-4">3</span>
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-800">Seamless Integration</h3>
+                            <p class="text-gray-600">How the wardrobe management and smart reselling work together to create a complete fashion ecosystem.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 text-center">
+                        <button class="elevated-btn font-bold py-3 px-6 rounded-lg inline-flex items-center" data-target="integration-demo">
+                            🔗 See Integration in Action
+                        </button>
+                    </div>
+
+                    <div id="integration-demo" class="elevated-content mt-8 rounded-lg p-8 hidden">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="font-bold text-xl text-gray-800 mb-4">Wardrobe → Reselling Flow</h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-center p-3 bg-rose-50 rounded-lg">
+                                        <span class="text-2xl mr-3">👗</span>
+                                        <div>
+                                            <div class="font-semibold">Item in Wardrobe</div>
+                                            <div class="text-sm text-gray-600">Dress hasn't been worn in 6 months</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-3 bg-blue-50 rounded-lg">
+                                        <span class="text-2xl mr-3">📊</span>
+                                        <div>
+                                            <div class="font-semibold">Wear Pattern Analysis</div>
+                                            <div class="text-sm text-gray-600">App suggests: "Consider reselling this item"</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-3 bg-green-50 rounded-lg">
+                                        <span class="text-2xl mr-3">💰</span>
+                                        <div>
+                                            <div class="font-semibold">Instant Price Estimate</div>
+                                            <div class="text-sm text-gray-600">"Could sell for $45-65 on Poshmark"</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-3 bg-purple-50 rounded-lg">
+                                        <span class="text-2xl mr-3">🚀</span>
+                                        <div>
+                                            <div class="font-semibold">One-Click Reselling</div>
+                                            <div class="text-sm text-gray-600">Generate listing and track sale</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl text-gray-800 mb-4">Reselling → Wardrobe Insights</h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-center p-3 bg-yellow-50 rounded-lg">
+                                        <span class="text-2xl mr-3">📈</span>
+                                        <div>
+                                            <div class="font-semibold">Sales Analytics</div>
+                                            <div class="text-sm text-gray-600">Track which items sell best</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-3 bg-indigo-50 rounded-lg">
+                                        <span class="text-2xl mr-3">🎯</span>
+                                        <div>
+                                            <div class="font-semibold">Shopping Guidance</div>
+                                            <div class="text-sm text-gray-600">"Avoid buying similar items that don't sell well"</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-3 bg-emerald-50 rounded-lg">
+                                        <span class="text-2xl mr-3">🔄</span>
+                                        <div>
+                                            <div class="font-semibold">Wardrobe Optimization</div>
+                                            <div class="text-sm text-gray-600">Suggest items to keep vs. resell</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-3 bg-pink-50 rounded-lg">
+                                        <span class="text-2xl mr-3">💡</span>
+                                        <div>
+                                            <div class="font-semibold">Style Insights</div>
+                                            <div class="text-sm text-gray-600">Learn what styles work best for you</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 p-6 bg-gradient-to-r from-rose-100 to-pink-100 rounded-lg">
+                            <h4 class="font-bold text-xl text-gray-800 mb-4 text-center">Complete User Journey</h4>
+                            <div class="grid md:grid-cols-5 gap-4 text-center">
+                                <div class="p-3 bg-white rounded-lg">
+                                    <span class="text-2xl block mb-2">👗</span>
+                                    <div class="font-semibold text-sm">Discover Item</div>
+                                    <div class="text-xs text-gray-600">In wardrobe</div>
+                                </div>
+                                <div class="p-3 bg-white rounded-lg">
+                                    <span class="text-2xl block mb-2">📊</span>
+                                    <div class="font-semibold text-sm">Analyze Usage</div>
+                                    <div class="text-xs text-gray-600">Wear patterns</div>
+                                </div>
+                                <div class="p-3 bg-white rounded-lg">
+                                    <span class="text-2xl block mb-2">💰</span>
+                                    <div class="font-semibold text-sm">Price Research</div>
+                                    <div class="text-xs text-gray-600">Market data</div>
+                                </div>
+                                <div class="p-3 bg-white rounded-lg">
+                                    <span class="text-2xl block mb-2">🚀</span>
+                                    <div class="font-semibold text-sm">Smart Listing</div>
+                                    <div class="text-xs text-gray-600">Optimized</div>
+                                </div>
+                                <div class="p-3 bg-white rounded-lg">
+                                    <span class="text-2xl block mb-2">📈</span>
+                                    <div class="font-semibold text-sm">Track & Learn</div>
+                                    <div class="text-xs text-gray-600">Insights</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Part 4: Live Demo -->
+            <section id="demo" class="scroll-mt-24">
+                <div class="card p-6 md:p-8">
+                    <div class="flex items-start mb-6">
+                        <span class="step-number mr-4">4</span>
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-800">Interactive Demo</h3>
+                            <p class="text-gray-600">Experience the complete app flow with interactive elements and real-time data visualization.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 text-center">
+                        <button class="elevated-btn font-bold py-3 px-6 rounded-lg inline-flex items-center" data-target="demo-content">
+                            🎮 Launch Interactive Demo
+                        </button>
+                    </div>
+
+                    <div id="demo-content" class="elevated-content mt-8 rounded-lg p-8 hidden">
+                        <!-- Demo Wardrobe Item -->
+                        <div class="max-w-2xl mx-auto">
+                            <div class="bg-white p-6 rounded-lg border shadow-lg">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-24 h-32 bg-gradient-to-br from-rose-200 to-pink-200 rounded-lg flex items-center justify-center">
+                                        <span class="text-3xl">👗</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-lg">Floral Midi Dress</h4>
+                                        <p class="text-gray-600 text-sm mb-2">Last worn: 6 months ago</p>
+                                        <div class="flex items-center space-x-2 mb-3">
+                                            <span class="trending-indicator">Trending</span>
+                                            <span class="text-sm text-gray-500">• 3 wears total</span>
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <button class="bg-rose-100 text-rose-700 px-3 py-1 rounded-full text-sm font-medium hover:bg-rose-200 transition-colors" onclick="showResellOptions()">
+                                                💰 Resell
+                                            </button>
+                                            <button class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium hover:bg-blue-200 transition-colors" onclick="showOutfitSuggestions()">
+                                                ✨ Style
+                                            </button>
+                                            <button class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors" onclick="showDetails()">
+                                                📋 Details
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Resell Options Panel -->
+                            <div id="resell-panel" class="mt-6 bg-white p-6 rounded-lg border shadow-lg hidden">
+                                <h5 class="font-bold text-lg mb-4">Smart Reselling Options</h5>
+                                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                    <div class="p-3 border rounded-lg">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="font-semibold">Recommended Price</span>
+                                            <span class="price-tag">$52</span>
+                                        </div>
+                                        <div class="text-sm text-gray-600">Based on current market data</div>
+                                    </div>
+                                    <div class="p-3 border rounded-lg">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="font-semibold">Best Platform</span>
+                                            <span class="text-purple-600 font-semibold">Poshmark</span>
+                                        </div>
+                                        <div class="text-sm text-gray-600">87% success rate</div>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                                        🚀 List on Poshmark
+                                    </button>
+                                    <button class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                                        📊 View All Options
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Outfit Suggestions Panel -->
+                            <div id="outfit-panel" class="mt-6 bg-white p-6 rounded-lg border shadow-lg hidden">
+                                <h5 class="font-bold text-lg mb-4">AI Outfit Suggestions</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-3 p-3 border rounded-lg">
+                                        <span class="text-2xl">👗</span>
+                                        <span class="text-2xl">+</span>
+                                        <span class="text-2xl">👠</span>
+                                        <span class="text-2xl">+</span>
+                                        <span class="text-2xl">💍</span>
+                                        <span class="text-2xl">=</span>
+                                        <span class="text-2xl">✨</span>
+                                        <div class="ml-3">
+                                            <div class="font-semibold">Spring Garden Party</div>
+                                            <div class="text-sm text-gray-600">Perfect for outdoor events</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-3 p-3 border rounded-lg">
+                                        <span class="text-2xl">👗</span>
+                                        <span class="text-2xl">+</span>
+                                        <span class="text-2xl">🧥</span>
+                                        <span class="text-2xl">+</span>
+                                        <span class="text-2xl">👜</span>
+                                        <span class="text-2xl">=</span>
+                                        <span class="text-2xl">✨</span>
+                                        <div class="ml-3">
+                                            <div class="font-semibold">Office to Dinner</div>
+                                            <div class="text-sm text-gray-600">Professional yet elegant</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Details Panel -->
+                            <div id="details-panel" class="mt-6 bg-white p-6 rounded-lg border shadow-lg hidden">
+                                <h5 class="font-bold text-lg mb-4">Item Details</h5>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <h6 class="font-semibold mb-2">Tags</h6>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="bg-rose-100 text-rose-700 px-2 py-1 rounded text-sm">Floral</span>
+                                            <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-sm">Midi</span>
+                                            <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm">Spring</span>
+                                            <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-sm">Dress</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h6 class="font-semibold mb-2">Wear History</h6>
+                                        <div class="space-y-1 text-sm">
+                                            <div>Last worn: 6 months ago</div>
+                                            <div>Total wears: 3 times</div>
+                                            <div>Purchase date: 1 year ago</div>
+                                            <div>Condition: Excellent</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Analytics Dashboard -->
+                        <div class="mt-8">
+                            <h4 class="font-bold text-xl text-gray-800 mb-4 text-center">Wardrobe Analytics</h4>
+                            <div class="grid md:grid-cols-3 gap-6">
+                                <div class="bg-white p-4 rounded-lg border">
+                                    <h5 class="font-semibold mb-3">Reselling Performance</h5>
+                                    <div class="chart-container" style="height: 200px;">
+                                        <canvas id="resellChart"></canvas>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg border">
+                                    <h5 class="font-semibold mb-3">Wardrobe Value</h5>
+                                    <div class="text-center">
+                                        <div class="text-3xl font-bold text-green-600 mb-2">$2,847</div>
+                                        <div class="text-sm text-gray-600">Total estimated value</div>
+                                        <div class="text-sm text-blue-600 mt-1">+$156 this month</div>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg border">
+                                    <h5 class="font-semibold mb-3">Smart Recommendations</h5>
+                                    <div class="space-y-2 text-sm">
+                                        <div class="flex items-center">
+                                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                            <span>3 items ready to resell</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                                            <span>5 new outfit combinations</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
+                                            <span>2 items need maintenance</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation Highlighting
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                        });
+                    }
+                });
+            }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Elevated Experience Toggles
+            const elevatedButtons = document.querySelectorAll('.elevated-btn');
+            elevatedButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-target');
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.classList.toggle('hidden');
+                        if (!targetElement.classList.contains('hidden')) {
+                            button.innerHTML = button.innerHTML.replace('Show', 'Hide').replace('Explore', 'Hide').replace('See', 'Hide').replace('Launch', 'Hide');
+                            if(targetId === 'demo-content') {
+                                renderDemoCharts();
+                            }
+                        } else {
+                            button.innerHTML = button.innerHTML.replace('Hide', 'Show').replace('Hide', 'Explore').replace('Hide', 'See').replace('Hide', 'Launch');
+                        }
+                    }
+                });
+            });
+
+            // Platform Selection
+            const platformCards = document.querySelectorAll('.platform-card');
+            platformCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    platformCards.forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                });
+            });
+
+            // Demo Functions
+            window.showResellOptions = function() {
+                document.getElementById('resell-panel').classList.remove('hidden');
+                document.getElementById('outfit-panel').classList.add('hidden');
+                document.getElementById('details-panel').classList.add('hidden');
+            };
+
+            window.showOutfitSuggestions = function() {
+                document.getElementById('outfit-panel').classList.remove('hidden');
+                document.getElementById('resell-panel').classList.add('hidden');
+                document.getElementById('details-panel').classList.add('hidden');
+            };
+
+            window.showDetails = function() {
+                document.getElementById('details-panel').classList.remove('hidden');
+                document.getElementById('resell-panel').classList.add('hidden');
+                document.getElementById('outfit-panel').classList.add('hidden');
+            };
+
+            // Chart.js for Demo
+            let resellChartInstance = null;
+            function renderDemoCharts() {
+                const ctx = document.getElementById('resellChart');
+                if (ctx && !resellChartInstance) {
+                    resellChartInstance = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Sold', 'Listed', 'Pending'],
+                            datasets: [{
+                                data: [12, 5, 3],
+                                backgroundColor: [
+                                    'rgb(34, 197, 94)', // green-500
+                                    'rgb(59, 130, 246)', // blue-500
+                                    'rgb(249, 115, 22)'  // orange-500
+                                ],
+                                borderWidth: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        padding: 10,
+                                        usePointStyle: true
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+
+</body>
+</html> 
