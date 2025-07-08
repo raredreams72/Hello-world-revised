@@ -198,42 +198,89 @@
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Feature 1: AI Styling -->
-                <div class="card p-6">
-                    <div class="feature-image h-48 mb-6" 
-                         style="background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')">
+                <!-- Feature 1: AI Styling (Interactive) -->
+                <div class="card p-6 flex flex-col">
+                    <div class="feature-image h-48 mb-6 flex items-center justify-center bg-gray-100 relative">
+                        <img id="styling-model-img" src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&w=400&h=300&fit=crop" alt="Model" class="h-44 w-32 object-cover rounded-xl shadow-lg border-4 border-white transition-all duration-300">
+                        <span id="styling-outfit-label" class="absolute bottom-2 left-1/2 -translate-x-1/2 bg-white/80 text-gray-800 px-3 py-1 rounded-full text-xs font-bold shadow">Minimalist</span>
                     </div>
                     <h3 class="text-2xl font-bold mb-3">AI-Powered Styling</h3>
                     <p class="text-gray-600 mb-4">Get personalized outfit suggestions based on your style preferences and current trends.</p>
-                    <div class="flex items-center text-sm text-purple-600">
+                    <div class="flex items-center text-sm text-purple-600 mb-4">
                         <span class="mr-2">✨</span>
                         <span>Smart recommendations</span>
                     </div>
+                    <div class="mb-4">
+                        <label for="style-select" class="block text-sm font-semibold mb-1">Choose a style:</label>
+                        <select id="style-select" class="rounded-lg border-gray-300 px-3 py-2 w-full">
+                            <option value="minimalist">Minimalist</option>
+                            <option value="bohemian">Bohemian</option>
+                            <option value="classic">Classic</option>
+                            <option value="edgy">Edgy</option>
+                        </select>
+                    </div>
+                    <button id="try-another-look" class="elevated-btn font-bold py-2 px-4 rounded-full text-sm mt-auto">Try Another Look</button>
                 </div>
 
-                <!-- Feature 2: Trend Analysis -->
-                <div class="card p-6">
-                    <div class="feature-image h-48 mb-6" 
-                         style="background-image: url('https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80')">
+                <!-- Feature 2: Trend Analysis (Interactive) -->
+                <div class="card p-6 flex flex-col">
+                    <div class="feature-image h-48 mb-6 flex items-center justify-center bg-gray-100 relative">
+                        <canvas id="trend-chart" width="220" height="120" class="w-full h-32"></canvas>
+                        <span class="absolute bottom-2 left-1/2 -translate-x-1/2 bg-white/80 text-gray-800 px-3 py-1 rounded-full text-xs font-bold shadow">Live Trends</span>
                     </div>
                     <h3 class="text-2xl font-bold mb-3">Real-Time Trend Analysis</h3>
                     <p class="text-gray-600 mb-4">Stay ahead with live fashion trend data and market intelligence.</p>
-                    <div class="flex items-center text-sm text-green-600">
+                    <div class="flex items-center text-sm text-green-600 mb-4">
                         <span class="mr-2">📈</span>
                         <span>Live trend data</span>
                     </div>
+                    <button id="show-trending-looks" class="elevated-btn font-bold py-2 px-4 rounded-full text-sm mt-auto">See Trending Looks</button>
+                    <div id="trending-looks-grid" class="grid grid-cols-2 gap-3 mt-4 hidden">
+                        <!-- Model cards will be injected here -->
+                    </div>
                 </div>
 
-                <!-- Feature 3: Smart Reselling -->
-                <div class="card p-6">
-                    <div class="feature-image h-48 mb-6" 
-                         style="background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')">
+                <!-- Feature 3: Smart Reselling (Interactive) -->
+                <div class="card p-6 flex flex-col">
+                    <div class="feature-image h-48 mb-6 flex items-center justify-center bg-gray-100 relative">
+                        <img id="resell-item-img" src="https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&w=400&h=300&fit=crop" alt="Resell Item" class="h-40 w-32 object-cover rounded-xl shadow-lg border-4 border-white transition-all duration-300">
+                        <span id="resell-item-label" class="absolute bottom-2 left-1/2 -translate-x-1/2 bg-white/80 text-gray-800 px-3 py-1 rounded-full text-xs font-bold shadow">Denim Jacket</span>
                     </div>
                     <h3 class="text-2xl font-bold mb-3">Smart Reselling Hub</h3>
                     <p class="text-gray-600 mb-4">Maximize profits with AI-driven pricing and platform recommendations.</p>
-                    <div class="flex items-center text-sm text-blue-600">
+                    <div class="flex items-center text-sm text-blue-600 mb-4">
                         <span class="mr-2">💰</span>
                         <span>Profit optimization</span>
+                    </div>
+                    <button id="list-item-btn" class="elevated-btn font-bold py-2 px-4 rounded-full text-sm mt-auto">List an Item</button>
+                    <!-- Modal for listing -->
+                    <div id="resell-modal" class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 hidden">
+                        <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl relative">
+                            <button id="close-resell-modal" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl">&times;</button>
+                            <h4 class="text-xl font-bold mb-4">List an Item for Sale</h4>
+                            <label for="resell-item-select" class="block text-sm font-semibold mb-2">Choose an item:</label>
+                            <select id="resell-item-select" class="rounded-lg border-gray-300 px-3 py-2 w-full mb-4">
+                                <option value="0">Denim Jacket (Latina, Athletic)</option>
+                                <option value="1">Floral Dress (Black, Curvy)</option>
+                                <option value="2">Monochrome Suit (White, Tall)</option>
+                                <option value="3">Crop Top (Asian, Petite)</option>
+                            </select>
+                            <div class="flex items-center mb-4">
+                                <img id="modal-item-img" src="https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&w=400&h=300&fit=crop" alt="Item" class="h-20 w-16 object-cover rounded-lg border-2 border-gray-200 mr-4">
+                                <div>
+                                    <div class="font-bold text-sm" id="modal-item-label">Denim Jacket</div>
+                                    <div class="text-xs text-gray-500 mb-1" id="modal-item-desc">Latina, Athletic</div>
+                                    <div class="text-green-600 font-bold text-lg" id="modal-item-price">$48</div>
+                                    <div class="text-xs text-gray-400">AI Suggested Price</div>
+                                </div>
+                            </div>
+                            <button id="modal-list-now" class="elevated-btn font-bold py-2 px-4 rounded-full text-sm w-full">List Now</button>
+                            <div id="sale-complete" class="hidden text-center mt-6">
+                                <div class="text-3xl mb-2 animate-bounce">🎉</div>
+                                <div class="font-bold text-green-600 text-lg">Sale Complete!</div>
+                                <div class="text-xs text-gray-500">Your item sold for <span id="sale-price">$48</span></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -287,7 +334,7 @@
             </div>
         </section>
 
-        <!-- Before/After Transformations -->
+        <!-- Before/After Transformations (Interactive Carousel & Models) -->
         <section class="mb-20">
             <div class="card p-8">
                 <div class="text-center mb-12">
@@ -295,32 +342,23 @@
                     <p class="text-xl text-gray-600">See how StyleSmart transforms wardrobes and lives</p>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-8">
-                    <!-- Before/After 1 -->
-                    <div class="before-after">
-                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80" 
-                             alt="Wardrobe Before" 
-                             class="w-full h-64 object-cover">
-                        <div class="image-overlay">
-                            <div class="text-center text-white">
-                                <h3 class="text-2xl font-bold mb-2">Before</h3>
-                                <p>Disorganized closet</p>
-                            </div>
-                        </div>
+                <!-- Carousel of Before/After Closets with Stylists -->
+                <div class="relative max-w-2xl mx-auto mb-12">
+                    <div class="overflow-hidden rounded-2xl shadow-lg">
+                        <img id="closet-carousel-img" src="https://images.pexels.com/photos/3965544/pexels-photo-3965544.jpeg?auto=compress&w=600&h=400&fit=crop" alt="Closet Transformation" class="w-full h-72 object-cover transition-all duration-500">
+                        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/80 px-4 py-2 rounded-full text-gray-800 font-bold text-sm shadow" id="closet-carousel-label">Before: Cluttered Closet</div>
                     </div>
+                    <button id="closet-prev" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-2 shadow hover:bg-white">&#8592;</button>
+                    <button id="closet-next" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-2 shadow hover:bg-white">&#8594;</button>
+                </div>
 
-                    <!-- Before/After 2 -->
-                    <div class="before-after">
-                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Wardrobe After" 
-                             class="w-full h-64 object-cover">
-                        <div class="image-overlay">
-                            <div class="text-center text-white">
-                                <h3 class="text-2xl font-bold mb-2">After</h3>
-                                <p>Organized with StyleSmart</p>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Interactive Model Cards -->
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold mb-2">Diverse Style Inspiration</h3>
+                    <p class="text-gray-600">Click a model to see them in trending outfits</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="model-cards-grid">
+                    <!-- Model cards will be injected here -->
                 </div>
             </div>
         </section>
@@ -373,7 +411,7 @@
             </div>
         </section>
 
-        <!-- Interactive Demo -->
+        <!-- Interactive Demo (Step-by-step Onboarding) -->
         <section id="demo" class="scroll-mt-24">
             <div class="card p-8">
                 <div class="text-center mb-12">
@@ -382,25 +420,71 @@
                 </div>
 
                 <div class="text-center">
-                    <button class="elevated-btn font-bold py-4 px-8 rounded-full text-lg mb-8">
+                    <button id="launch-demo-btn" class="elevated-btn font-bold py-4 px-8 rounded-full text-lg mb-8">
                         🚀 Launch Interactive Demo
                     </button>
                 </div>
 
-                <!-- Demo Screenshots Grid -->
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80" 
-                         alt="Demo 1" 
-                         class="app-screenshot w-full">
-                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                         alt="Demo 2" 
-                         class="app-screenshot w-full">
-                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80" 
-                         alt="Demo 3" 
-                         class="app-screenshot w-full">
-                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                         alt="Demo 4" 
-                         class="app-screenshot w-full">
+                <!-- Demo Modal Overlay -->
+                <div id="demo-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+                    <div class="bg-white rounded-2xl p-8 w-full max-w-lg shadow-2xl relative">
+                        <button id="close-demo-modal" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl">&times;</button>
+                        <div id="demo-step-1" class="demo-step">
+                            <h3 class="text-2xl font-bold mb-4">Welcome to StyleSmart!</h3>
+                            <p class="mb-6">Let's walk through a quick demo of how StyleSmart works.</p>
+                            <button class="elevated-btn font-bold py-2 px-6 rounded-full text-lg" id="demo-next-1">Start Demo</button>
+                        </div>
+                        <div id="demo-step-2" class="demo-step hidden">
+                            <h3 class="text-xl font-bold mb-4">1. Pick Your Style</h3>
+                            <p class="mb-4">Choose a style to see a model update in real time.</p>
+                            <select id="demo-style-select" class="rounded-lg border-gray-300 px-3 py-2 w-full mb-4">
+                                <option value="minimalist">Minimalist</option>
+                                <option value="bohemian">Bohemian</option>
+                                <option value="classic">Classic</option>
+                                <option value="edgy">Edgy</option>
+                            </select>
+                            <div class="flex flex-col items-center mb-4">
+                                <img id="demo-style-img" src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&w=400&h=300&fit=crop" alt="Demo Model" class="h-32 w-24 object-cover rounded-xl shadow-lg border-4 border-white mb-2">
+                                <div id="demo-style-label" class="font-bold text-sm text-purple-700">Minimalist</div>
+                            </div>
+                            <button class="elevated-btn font-bold py-2 px-6 rounded-full text-lg" id="demo-next-2">Next</button>
+                        </div>
+                        <div id="demo-step-3" class="demo-step hidden">
+                            <h3 class="text-xl font-bold mb-4">2. See a Trend</h3>
+                            <p class="mb-4">Check out a live trend chart and trending looks.</p>
+                            <canvas id="demo-trend-chart" width="220" height="100" class="w-full h-24 mb-4"></canvas>
+                            <div class="grid grid-cols-2 gap-2 mb-4">
+                                <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&w=400&h=300&fit=crop" class="h-20 w-16 object-cover rounded-lg border-2 border-gray-200">
+                                <img src="https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&w=400&h=300&fit=crop" class="h-20 w-16 object-cover rounded-lg border-2 border-gray-200">
+                            </div>
+                            <button class="elevated-btn font-bold py-2 px-6 rounded-full text-lg" id="demo-next-3">Next</button>
+                        </div>
+                        <div id="demo-step-4" class="demo-step hidden">
+                            <h3 class="text-xl font-bold mb-4">3. List an Item</h3>
+                            <p class="mb-4">Simulate listing an item and watch it sell!</p>
+                            <div class="flex items-center mb-4">
+                                <img id="demo-resell-img" src="https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&w=400&h=300&fit=crop" class="h-20 w-16 object-cover rounded-lg border-2 border-gray-200 mr-4">
+                                <div>
+                                    <div class="font-bold text-sm" id="demo-resell-label">Denim Jacket</div>
+                                    <div class="text-xs text-gray-500 mb-1" id="demo-resell-desc">Latina, Athletic</div>
+                                    <div class="text-green-600 font-bold text-lg" id="demo-resell-price">$48</div>
+                                    <div class="text-xs text-gray-400">AI Suggested Price</div>
+                                </div>
+                            </div>
+                            <button class="elevated-btn font-bold py-2 px-6 rounded-full text-lg" id="demo-list-now">List Now</button>
+                            <div id="demo-sale-complete" class="hidden text-center mt-4">
+                                <div class="text-3xl mb-2 animate-bounce">🎉</div>
+                                <div class="font-bold text-green-600 text-lg">Sale Complete!</div>
+                                <div class="text-xs text-gray-500">Your item sold for <span id="demo-sale-price">$48</span></div>
+                            </div>
+                        </div>
+                        <div id="demo-step-5" class="demo-step hidden text-center">
+                            <h3 class="text-2xl font-bold mb-4">You're Ready!</h3>
+                            <p class="mb-6">You've experienced the core features of StyleSmart.<br>Start using the app for real style transformation!</p>
+                            <button class="elevated-btn font-bold py-2 px-6 rounded-full text-lg mb-2" id="demo-restart">Restart Demo</button>
+                            <button class="elevated-btn font-bold py-2 px-6 rounded-full text-lg" id="demo-close">Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -457,6 +541,353 @@
                 });
                 img.style.opacity = '0';
                 img.style.transition = 'opacity 0.5s ease';
+            });
+
+            // AI-Powered Styling Interactive Demo
+            const styleModels = {
+                minimalist: [
+                    {img: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Minimalist - Light Neutrals'},
+                    {img: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Minimalist - Black & White'},
+                    {img: 'https://images.pexels.com/photos/1181696/pexels-photo-1181696.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Minimalist - Monochrome'}
+                ],
+                bohemian: [
+                    {img: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Bohemian - Flowy Prints'},
+                    {img: 'https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Bohemian - Earth Tones'},
+                    {img: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Bohemian - Layered Accessories'}
+                ],
+                classic: [
+                    {img: 'https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Classic - Blazer & Trousers'},
+                    {img: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Classic - Button Down'},
+                    {img: 'https://images.pexels.com/photos/1181696/pexels-photo-1181696.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Classic - Pencil Skirt'}
+                ],
+                edgy: [
+                    {img: 'https://images.pexels.com/photos/1181696/pexels-photo-1181696.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Edgy - Leather Jacket'},
+                    {img: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Edgy - Bold Prints'},
+                    {img: 'https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Edgy - Statement Boots'}
+                ]
+            };
+            let currentStyle = 'minimalist';
+            let currentModelIndex = 0;
+            const styleSelect = document.getElementById('style-select');
+            const stylingModelImg = document.getElementById('styling-model-img');
+            const stylingOutfitLabel = document.getElementById('styling-outfit-label');
+            const tryAnotherLookBtn = document.getElementById('try-another-look');
+
+            function updateStylingModel(style, index) {
+                const model = styleModels[style][index];
+                stylingModelImg.src = model.img;
+                stylingOutfitLabel.textContent = model.label;
+            }
+
+            styleSelect.addEventListener('change', (e) => {
+                currentStyle = e.target.value;
+                currentModelIndex = 0;
+                updateStylingModel(currentStyle, currentModelIndex);
+            });
+
+            tryAnotherLookBtn.addEventListener('click', () => {
+                currentModelIndex = (currentModelIndex + 1) % styleModels[currentStyle].length;
+                updateStylingModel(currentStyle, currentModelIndex);
+            });
+
+            updateStylingModel(currentStyle, currentModelIndex);
+
+            // Real-Time Trend Analysis Interactive Demo
+            let trendChart;
+            function renderTrendChart() {
+                const ctx = document.getElementById('trend-chart').getContext('2d');
+                if (trendChart) trendChart.destroy();
+                trendChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                        datasets: [
+                            {
+                                label: 'Cottagecore',
+                                data: [12, 19, 15, 22, 28, 35, 40],
+                                borderColor: '#FF6B6B',
+                                backgroundColor: 'rgba(255,107,107,0.1)',
+                                tension: 0.4
+                            },
+                            {
+                                label: 'Y2K',
+                                data: [8, 12, 18, 25, 30, 32, 38],
+                                borderColor: '#4ECDC4',
+                                backgroundColor: 'rgba(78,205,196,0.1)',
+                                tension: 0.4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, max: 50 } }
+                    }
+                });
+            }
+            renderTrendChart();
+
+            const trendingLooks = [
+                {img: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Cottagecore', desc: 'Floral dress, straw hat', race: 'Black', body: 'Curvy'},
+                {img: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Y2K', desc: 'Denim, crop top', race: 'Asian', body: 'Petite'},
+                {img: 'https://images.pexels.com/photos/1181696/pexels-photo-1181696.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Minimalist', desc: 'Monochrome suit', race: 'White', body: 'Tall'},
+                {img: 'https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Bohemian', desc: 'Layered prints', race: 'Latina', body: 'Athletic'}
+            ];
+            const showTrendingLooksBtn = document.getElementById('show-trending-looks');
+            const trendingLooksGrid = document.getElementById('trending-looks-grid');
+
+            showTrendingLooksBtn.addEventListener('click', () => {
+                trendingLooksGrid.innerHTML = trendingLooks.map(model => `
+                    <div class="flex flex-col items-center bg-white/90 rounded-lg p-2 shadow">
+                        <img src="${model.img}" alt="${model.label} model" class="h-28 w-20 object-cover rounded-md mb-2 border-2 border-gray-200">
+                        <div class="font-bold text-xs mb-1">${model.label}</div>
+                        <div class="text-xs text-gray-600 mb-1">${model.desc}</div>
+                        <div class="text-[10px] text-gray-500">${model.race}, ${model.body}</div>
+                    </div>
+                `).join('');
+                trendingLooksGrid.classList.toggle('hidden');
+                showTrendingLooksBtn.textContent = trendingLooksGrid.classList.contains('hidden') ? 'See Trending Looks' : 'Hide Trending Looks';
+            });
+
+            // Smart Reselling Hub Interactive Demo
+            const resellItems = [
+                {img: 'https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Denim Jacket', desc: 'Latina, Athletic', price: 48},
+                {img: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Floral Dress', desc: 'Black, Curvy', price: 54},
+                {img: 'https://images.pexels.com/photos/1181696/pexels-photo-1181696.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Monochrome Suit', desc: 'White, Tall', price: 62},
+                {img: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Crop Top', desc: 'Asian, Petite', price: 32}
+            ];
+            const resellItemImg = document.getElementById('resell-item-img');
+            const resellItemLabel = document.getElementById('resell-item-label');
+            const listItemBtn = document.getElementById('list-item-btn');
+            const resellModal = document.getElementById('resell-modal');
+            const closeResellModal = document.getElementById('close-resell-modal');
+            const resellItemSelect = document.getElementById('resell-item-select');
+            const modalItemImg = document.getElementById('modal-item-img');
+            const modalItemLabel = document.getElementById('modal-item-label');
+            const modalItemDesc = document.getElementById('modal-item-desc');
+            const modalItemPrice = document.getElementById('modal-item-price');
+            const modalListNow = document.getElementById('modal-list-now');
+            const saleComplete = document.getElementById('sale-complete');
+            const salePrice = document.getElementById('sale-price');
+
+            listItemBtn.addEventListener('click', () => {
+                resellModal.classList.remove('hidden');
+                saleComplete.classList.add('hidden');
+                modalListNow.disabled = false;
+            });
+            closeResellModal.addEventListener('click', () => {
+                resellModal.classList.add('hidden');
+            });
+            resellItemSelect.addEventListener('change', (e) => {
+                const idx = parseInt(e.target.value);
+                const item = resellItems[idx];
+                modalItemImg.src = item.img;
+                modalItemLabel.textContent = item.label;
+                modalItemDesc.textContent = item.desc;
+                modalItemPrice.textContent = `$${item.price}`;
+                salePrice.textContent = `$${item.price}`;
+            });
+            modalListNow.addEventListener('click', () => {
+                saleComplete.classList.remove('hidden');
+                modalListNow.disabled = true;
+                setTimeout(() => {
+                    resellModal.classList.add('hidden');
+                    // Update main card to show sold item
+                    const idx = parseInt(resellItemSelect.value);
+                    resellItemImg.src = resellItems[idx].img;
+                    resellItemLabel.textContent = resellItems[idx].label + ' (Sold!)';
+                }, 1800);
+            });
+            // Initialize modal with first item
+            resellItemSelect.value = 0;
+            modalItemImg.src = resellItems[0].img;
+            modalItemLabel.textContent = resellItems[0].label;
+            modalItemDesc.textContent = resellItems[0].desc;
+            modalItemPrice.textContent = `$${resellItems[0].price}`;
+            salePrice.textContent = `$${resellItems[0].price}`;
+
+            // Real Transformations Interactive Carousel & Models
+            const closetCarousel = [
+                {img: 'https://images.pexels.com/photos/3965544/pexels-photo-3965544.jpeg?auto=compress&w=600&h=400&fit=crop', label: 'Before: Cluttered Closet'},
+                {img: 'https://images.pexels.com/photos/3965545/pexels-photo-3965545.jpeg?auto=compress&w=600&h=400&fit=crop', label: 'After: Organized by Stylist'},
+                {img: 'https://images.pexels.com/photos/3965546/pexels-photo-3965546.jpeg?auto=compress&w=600&h=400&fit=crop', label: 'Stylist at Work'},
+                {img: 'https://images.pexels.com/photos/3965550/pexels-photo-3965550.jpeg?auto=compress&w=600&h=400&fit=crop', label: 'After: Boutique-Style Closet'}
+            ];
+            let closetIdx = 0;
+            const closetImg = document.getElementById('closet-carousel-img');
+            const closetLabel = document.getElementById('closet-carousel-label');
+            const closetPrev = document.getElementById('closet-prev');
+            const closetNext = document.getElementById('closet-next');
+            function updateClosetCarousel(idx) {
+                closetImg.src = closetCarousel[idx].img;
+                closetLabel.textContent = closetCarousel[idx].label;
+            }
+            closetPrev.addEventListener('click', () => {
+                closetIdx = (closetIdx - 1 + closetCarousel.length) % closetCarousel.length;
+                updateClosetCarousel(closetIdx);
+            });
+            closetNext.addEventListener('click', () => {
+                closetIdx = (closetIdx + 1) % closetCarousel.length;
+                updateClosetCarousel(closetIdx);
+            });
+            updateClosetCarousel(closetIdx);
+
+            // Interactive Model Cards
+            const modelData = [
+                {
+                    name: 'Ava',
+                    race: 'Black',
+                    body: 'Curvy',
+                    outfits: [
+                        {img: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Cottagecore'},
+                        {img: 'https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Bohemian'}
+                    ]
+                },
+                {
+                    name: 'Lina',
+                    race: 'Asian',
+                    body: 'Petite',
+                    outfits: [
+                        {img: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Y2K'},
+                        {img: 'https://images.pexels.com/photos/1181696/pexels-photo-1181696.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Minimalist'}
+                    ]
+                },
+                {
+                    name: 'Sofia',
+                    race: 'Latina',
+                    body: 'Athletic',
+                    outfits: [
+                        {img: 'https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Classic'},
+                        {img: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Bohemian'}
+                    ]
+                },
+                {
+                    name: 'Maya',
+                    race: 'White',
+                    body: 'Tall',
+                    outfits: [
+                        {img: 'https://images.pexels.com/photos/1181696/pexels-photo-1181696.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Minimalist'},
+                        {img: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Y2K'}
+                    ]
+                }
+            ];
+            const modelCardsGrid = document.getElementById('model-cards-grid');
+            modelCardsGrid.innerHTML = modelData.map((model, i) => `
+                <div class="flex flex-col items-center bg-white/90 rounded-lg p-3 shadow cursor-pointer group" data-model-idx="${i}">
+                    <img src="${model.outfits[0].img}" alt="${model.name}" class="h-28 w-20 object-cover rounded-md mb-2 border-2 border-gray-200 model-img">
+                    <div class="font-bold text-xs mb-1">${model.name}</div>
+                    <div class="text-xs text-gray-600 mb-1">${model.race}, ${model.body}</div>
+                    <div class="text-xs text-purple-600 font-semibold model-outfit-label">${model.outfits[0].label}</div>
+                    <button class="elevated-btn font-bold py-1 px-3 rounded-full text-xs mt-2 model-next-btn">Next Look</button>
+                </div>
+            `).join('');
+            // Add interactivity to model cards
+            Array.from(modelCardsGrid.children).forEach((card, i) => {
+                let outfitIdx = 0;
+                const img = card.querySelector('.model-img');
+                const label = card.querySelector('.model-outfit-label');
+                const nextBtn = card.querySelector('.model-next-btn');
+                nextBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    outfitIdx = (outfitIdx + 1) % modelData[i].outfits.length;
+                    img.src = modelData[i].outfits[outfitIdx].img;
+                    label.textContent = modelData[i].outfits[outfitIdx].label;
+                });
+            });
+
+            // Interactive Demo Modal Logic
+            const demoModal = document.getElementById('demo-modal');
+            const launchDemoBtn = document.getElementById('launch-demo-btn');
+            const closeDemoModal = document.getElementById('close-demo-modal');
+            const demoSteps = [
+                document.getElementById('demo-step-1'),
+                document.getElementById('demo-step-2'),
+                document.getElementById('demo-step-3'),
+                document.getElementById('demo-step-4'),
+                document.getElementById('demo-step-5')
+            ];
+            let demoStepIdx = 0;
+            function showDemoStep(idx) {
+                demoSteps.forEach((step, i) => step.classList.toggle('hidden', i !== idx));
+                demoStepIdx = idx;
+            }
+            launchDemoBtn.addEventListener('click', () => {
+                demoModal.classList.remove('hidden');
+                showDemoStep(0);
+            });
+            closeDemoModal.addEventListener('click', () => {
+                demoModal.classList.add('hidden');
+            });
+            document.getElementById('demo-next-1').addEventListener('click', () => showDemoStep(1));
+            document.getElementById('demo-next-2').addEventListener('click', () => showDemoStep(2));
+            document.getElementById('demo-next-3').addEventListener('click', () => showDemoStep(3));
+            document.getElementById('demo-restart').addEventListener('click', () => showDemoStep(0));
+            document.getElementById('demo-close').addEventListener('click', () => demoModal.classList.add('hidden'));
+            // Step 2: Style selection
+            const demoStyleSelect = document.getElementById('demo-style-select');
+            const demoStyleImg = document.getElementById('demo-style-img');
+            const demoStyleLabel = document.getElementById('demo-style-label');
+            const demoStyleModels = {
+                minimalist: {img: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Minimalist'},
+                bohemian: {img: 'https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Bohemian'},
+                classic: {img: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Classic'},
+                edgy: {img: 'https://images.pexels.com/photos/1181696/pexels-photo-1181696.jpeg?auto=compress&w=400&h=300&fit=crop', label: 'Edgy'}
+            };
+            demoStyleSelect.addEventListener('change', (e) => {
+                const val = e.target.value;
+                demoStyleImg.src = demoStyleModels[val].img;
+                demoStyleLabel.textContent = demoStyleModels[val].label;
+            });
+            // Step 3: Trend chart
+            let demoTrendChart;
+            function renderDemoTrendChart() {
+                const ctx = document.getElementById('demo-trend-chart').getContext('2d');
+                if (demoTrendChart) demoTrendChart.destroy();
+                demoTrendChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                        datasets: [
+                            {
+                                label: 'Cottagecore',
+                                data: [12, 19, 15, 22, 28, 35, 40],
+                                borderColor: '#FF6B6B',
+                                backgroundColor: 'rgba(255,107,107,0.1)',
+                                tension: 0.4
+                            },
+                            {
+                                label: 'Y2K',
+                                data: [8, 12, 18, 25, 30, 32, 38],
+                                borderColor: '#4ECDC4',
+                                backgroundColor: 'rgba(78,205,196,0.1)',
+                                tension: 0.4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, max: 50 } }
+                    }
+                });
+            }
+            document.getElementById('demo-next-2').addEventListener('click', renderDemoTrendChart);
+            // Step 4: Resell simulation
+            const demoResellImg = document.getElementById('demo-resell-img');
+            const demoResellLabel = document.getElementById('demo-resell-label');
+            const demoResellDesc = document.getElementById('demo-resell-desc');
+            const demoResellPrice = document.getElementById('demo-resell-price');
+            const demoListNow = document.getElementById('demo-list-now');
+            const demoSaleComplete = document.getElementById('demo-sale-complete');
+            const demoSalePrice = document.getElementById('demo-sale-price');
+            demoListNow.addEventListener('click', () => {
+                demoSaleComplete.classList.remove('hidden');
+                demoListNow.disabled = true;
+                setTimeout(() => {
+                    showDemoStep(4);
+                    demoSaleComplete.classList.add('hidden');
+                    demoListNow.disabled = false;
+                }, 1600);
             });
         });
     </script>
